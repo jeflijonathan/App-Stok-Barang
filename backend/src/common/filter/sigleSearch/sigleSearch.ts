@@ -9,7 +9,6 @@ export function buildSingleSearch(
   return {
     [searchField]: {
       contains: searchValue,
-      mode: "insensitive",
     },
   };
 }

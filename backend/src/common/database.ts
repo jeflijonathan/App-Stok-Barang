@@ -22,6 +22,6 @@ export const prismaClient = new PrismaClient({
   ],
 });
 
-prismaClient.$on("error", (e: string) => {
+prismaClient.$on("error", (e: string | unknown) => {
   logger.error(e);
 });
