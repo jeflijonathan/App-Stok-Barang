@@ -1,63 +1,44 @@
 import { Request, Response, NextFunction } from "express";
+import { ApiResponse, RequestHandler, SuccessResponse } from "@common/types";
+import { catchError } from "@common/handler/errors/catchError";
+import { success } from "@common/handler/success/success";
+import { getPagination } from "@common/pagination/paginations";
 import { UserModel } from "./model";
-import { ApiResponse, RequestHandler } from "@common/types";
-import bcrypt from "bcrypt";
-import { catchError } from "@common/errors/catchError";
-import { PrismaClient } from "@prisma/client";
-import { signToken } from "@common/utils/jwt";
+import { UserService } from "./service";
 
-const prisma = new PrismaClient();
-export const getUsers: RequestHandler<ApiResponse<UserModel[]>> = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const password = bcrypt.hashSync("admin123", 10);
+export class UserController {
+  private userService = new UserService();
 
-  const data: UserModel[] = [
-    {
-      id: "1",
-      name: "jefli jonathan",
-      email: "",
-      password: password,
-      role: "user",
-    },
-  ];
-  const search: UserModel[] = data.filter((user) => user.id == "1");
-  const fetchData: Promise<UserModel[]> = Promise.resolve(search);
+  getUsers: RequestHandler<ApiResponse<UserModel[]>> = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { skip, take, page, limit } = getPagination(req.query);
 
-  const [error, result] = await catchError(fetchData);
+    const [error, result] = await catchError<{
+      data: UserModel[];
+      total: number;
+    }>(this.userService.findUsers({ ...req.query, skip, take }));
 
-  if (error) {
-    next();
-  } else {
-    res.status(200).json([
-      {
-        status: true,
+    if (error) {
+      console.log(error);
+      next(error);
+    } else {
+      const data: SuccessResponse<UserModel[]> = {
+        res,
         statusCode: 200,
-        message: "successfully get users data",
-        data: result,
-      },
-    ]);
-  }
-};
+        message: "Successfully fetched users",
+        data: result.data,
+        pagination: {
+          page,
+          limit,
+          total_items: result.total,
+          total_pages: Math.ceil(result.total / limit),
+        },
+      };
 
-export async function signup(email: string, password: string) {
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await prisma.user.create({
-    data: { email, password: hashedPassword },
-  });
-  const token = signToken({ userId: user.id });
-  return { user, token };
-}
-
-export async function login(email: string, password: string) {
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (!user) throw new Error("Invalid credentials");
-
-  const isValid = await bcrypt.compare(password, user.password);
-  if (!isValid) throw new Error("Invalid credentials");
-
-  const token = signToken({ userId: user.id });
-  return { user, token };
+      return success(data);
+    }
+  };
 }

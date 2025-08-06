@@ -10,7 +10,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
   try {
     const token = authHeader.split(" ")[1];
     const payload = verifyToken<{ userId: number }>(token);
-    (req as any).user = payload; // You may type this better
+    (req as any).user = payload;
     next();
   } catch (err) {
     res.status(401).json({ message: "Invalid token" });

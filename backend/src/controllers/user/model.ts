@@ -1,7 +1,22 @@
+export type Role = {
+  id: number;
+  name: string;
+  createAt: Date;
+  updateAt: Date;
+};
+
 export type UserModel = {
   id: string;
-  name: string;
+  username: string;
   email: string;
   password: string;
-  role: string;
+  roleId: number;
+  role?: Role;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type UserLoginModel = {
+  email: string;
+  password: string;
 };

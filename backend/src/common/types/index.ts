@@ -1,3 +1,4 @@
+import { OrderBy } from "@common/utils/const";
 import { NextFunction, Response, Request } from "express";
 
 export type RequestHandler<T = any> = (
@@ -7,13 +8,35 @@ export type RequestHandler<T = any> = (
 ) => Promise<void> | void;
 
 export type ApiResponse<T = any> = {
-  status: boolean;
+  res: Response;
+  status?: boolean;
   statusCode: number;
   message: string;
   data: T;
+  pagination?: Pagination;
 };
 
 export type Filtering = {
   label: string | number;
   key: string | number;
 };
+
+export interface Pagination {
+  page: number;
+  limit: number;
+  total_items: number;
+  total_pages: number;
+}
+
+export interface SuccessResponse<T> {
+  res: any;
+  statusCode: number;
+  message: string;
+  data: T;
+  pagination?: Pagination;
+}
+
+export interface StringFilter {
+  order_by?: OrderBy;
+  sort?: string;
+}

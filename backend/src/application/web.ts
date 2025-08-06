@@ -2,7 +2,7 @@ import express, { NextFunction, Response, Request } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { setupRoutes } from "../config/router/router";
-import { errorHandler } from "@common/errors/errorHandler";
+import { errorHandler } from "@common/handler/errors/error";
 import { corsConfig } from "src/config/router/cors";
 
 export const app = express();

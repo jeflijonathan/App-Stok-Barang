@@ -1,8 +1,10 @@
-import { getUsers } from "@controllers/user";
+import { UserController } from "@controllers/user";
 import { Application, Request, Response, NextFunction } from "express";
 
 export const setupRoutes = (app: Application): void => {
-  app.get("/", getUsers);
+  const userController = new UserController();
+
+  app.get("/api/users", userController.getUsers);
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     res.status(404).json([
