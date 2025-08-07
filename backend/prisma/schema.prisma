@@ -13,6 +13,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// add migration: npx prisma migrate dev 
+// generate client: npx prisma generate
+
 model Role {
   id Int @id() @default(autoincrement())
   name String  @unique
@@ -30,8 +33,8 @@ model User {
   role          Role             @relation(fields: [roleId], references: [id], onDelete: Cascade)
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
-  refreshTokens RefreshToken[]   
-  sessions      Session[]        
+  status        Boolean
+  refreshTokens RefreshToken[]        
   resetTokens   PasswordResetToken[]
 }
 
@@ -46,24 +49,15 @@ model PasswordResetToken {
 }
 
 model RefreshToken {
-  id          String   @id @default(uuid()) @unique 
-  hashedToken String   @unique
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  revoked     Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  expireAt    DateTime
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    String
+  ipAddress   String? 
+  userAgent   String? 
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  expiresAt DateTime
 }
 
-model Session {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  token     String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
 
 

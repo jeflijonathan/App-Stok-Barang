@@ -3,7 +3,7 @@ export function catchError<T>(
 ): Promise<[undefined, T] | [Error]> {
   return promise
     .then((data) => {
-      return [undefined, data] as [undefined, T];
+      return [undefined, data ?? []] as [undefined, T];
     })
     .catch((error: Error) => {
       return [error];

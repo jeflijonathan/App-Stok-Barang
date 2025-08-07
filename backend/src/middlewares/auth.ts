@@ -1,18 +1,20 @@
 import { Request, Response, NextFunction } from "express";
-import { verifyToken } from "../utils/jwt";
+import jwt from "jsonwebtoken";
 
-export function authenticate(req: Request, res: Response, next: NextFunction) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+export const authenticateToken = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader?.split(" ")[1];
 
-  try {
-    const token = authHeader.split(" ")[1];
-    const payload = verifyToken<{ userId: number }>(token);
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (err, payload) => {
+    if (err) return res.sendStatus(403);
+
     (req as any).user = payload;
     next();
-  } catch (err) {
-    res.status(401).json({ message: "Invalid token" });
-  }
-}
+  });
+};

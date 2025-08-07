@@ -9,7 +9,7 @@ import { UserService } from "./service";
 export class UserController {
   private userService = new UserService();
 
-  getUsers: RequestHandler<ApiResponse<UserModel[]>> = async (
+  public getUsers: RequestHandler<ApiResponse<UserModel[]>> = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -41,4 +41,45 @@ export class UserController {
       return success(data);
     }
   };
+
+  public getUserById: RequestHandler<ApiResponse<UserModel[]>> = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const [error, result] = await catchError<UserModel[]>(
+      this.userService.findUserById(req.params.id)
+    );
+
+    if (error) {
+      next(error);
+    } else {
+      const response: SuccessResponse<UserModel[]> = {
+        res,
+        statusCode: 200,
+        message: `Successfully fetched user ${req.params.id}`,
+        data: result,
+      };
+
+      return success(response);
+    }
+  };
+
+  public login: RequestHandler<ApiResponse<UserModel[]>> = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {};
+
+  public logout: RequestHandler<ApiResponse<UserModel[]>> = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {};
+
+  public refreshToken: RequestHandler<ApiResponse<UserModel[]>> = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {};
 }

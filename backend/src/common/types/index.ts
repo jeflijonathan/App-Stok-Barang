@@ -3,7 +3,7 @@ import { NextFunction, Response, Request } from "express";
 
 export type RequestHandler<T = any> = (
   req: Request,
-  res: Response<T>,
+  res: Response,
   next: NextFunction
 ) => Promise<void> | void;
 

@@ -9,6 +9,7 @@ export const seedUser = async () => {
       email: "admin@example.com",
       password: await encrypt("admin123"),
       roleId: 1,
+      status: true,
     },
   });
   console.log("User seeding done.");

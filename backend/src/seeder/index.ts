@@ -3,8 +3,8 @@ import { seedUser } from "./userSeeder";
 
 const arg = process.argv[2];
 const listSeeder = [
-  { name: "user", seeder: seedUser },
   { name: "role", seeder: seedRole },
+  { name: "user", seeder: seedUser },
 ];
 
 async function main() {
