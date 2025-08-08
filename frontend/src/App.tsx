@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/loginpage";
-import LayoutHome from "./layouts/layoutHome";
+import LayoutHome from "./layouts/layoutApp";
 
 function App() {
   const listMenuHome = [

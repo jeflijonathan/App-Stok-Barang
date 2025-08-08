@@ -1,6 +1,6 @@
 import { API } from "..";
 import type { APIResponse, Callback } from "../../common/types";
-import type { LoginRequestModel } from "./model";
+import type { LoginRequestModel, LoginResponseModel } from "./model";
 
 export class UserService {
   private api = new API();
@@ -9,9 +9,9 @@ export class UserService {
 
   async Login(
     data: LoginRequestModel[],
-    callback: Callback<LoginRequestModel[]>
+    callback: Callback<LoginResponseModel[]>
   ) {
-    const res: APIResponse<LoginRequestModel[]> = await this.api.POST(
+    const res: APIResponse<LoginResponseModel[]> = await this.api.POST(
       this.basePathLogin,
       data
     );

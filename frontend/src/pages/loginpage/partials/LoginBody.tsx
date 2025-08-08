@@ -2,7 +2,7 @@ import CardFormLogin from "./CardFormLogin";
 
 const LoginBody = () => {
   return (
-    <div className="justify-center items-center">
+    <div className="flex justify-center items-center">
       <CardFormLogin />
     </div>
   );

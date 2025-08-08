@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
 
-const LayoutDashboard = () => {
+ const LayoutDashboard = () => {
   return (
     <>
       <Outlet />
     </>
   );
 };
+export default  LayoutDashboard ;
