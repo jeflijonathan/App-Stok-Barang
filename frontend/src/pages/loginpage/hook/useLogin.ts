@@ -1,11 +1,12 @@
-import { useForm, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { UserService } from "../../../api/users/service";
 import type { LoginRequestModel } from "../../../api/users/model";
-import LocalStorage from "../../../common/utils/localStorage";
+import LocalStorage from "@utils/localStorage";
 
 type HookReturn = {
   handleLogin: () => void;
 };
+
 const useLogin = (): HookReturn => {
   const { handleSubmit } = useFormContext();
   const { setItem } = LocalStorage();

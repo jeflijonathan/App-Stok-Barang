@@ -4,6 +4,7 @@ import useLoginForm from "../hook/useLoginForm";
 import bg from "@assets/image/bg.png";
 import vector from "@assets/image/vector.png";
 import { Link } from "react-router-dom";
+import AppearZoomIn from "@components/animations/AppearZoomIn";
 const CardFormLogin = () => {
   const { loginReqForm } = useLoginForm();
 
@@ -25,7 +26,9 @@ const CardFormLogin = () => {
         className={`bg-cover bg-center w-full flex flex-col justify-center items-center rounded-tr-2xl rounded-br-xs lg:p-8 p-10 md:p-20`}
         style={{ backgroundImage: `url(${bg})` }}
       >
-        <img src={vector} alt="" className="md:w-[70%] lg:w-full w-full" />
+        <AppearZoomIn duration={0.6}>
+          <img src={vector} alt="" className="md:w-[70%] lg:w-full w-full" />
+        </AppearZoomIn>
       </div>
     </div>
   );

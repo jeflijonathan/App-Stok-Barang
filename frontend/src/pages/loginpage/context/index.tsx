@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import type { LoginRequestModel } from "../../../api/users/model";
+import type { LoginRequestModel } from "@api/users/model";
 
 type StateType = {
   isLoading: boolean;
@@ -16,9 +16,7 @@ type ContextType = {
   setState: React.Dispatch<React.SetStateAction<StateType>>;
 };
 
-export const LoginPageContext = createContext<ContextType | undefined>(
-  undefined
-);
+const LoginPageContext = createContext<ContextType | undefined>(undefined);
 
 const useLoginPageContext = () => {
   const context = useContext(LoginPageContext);
