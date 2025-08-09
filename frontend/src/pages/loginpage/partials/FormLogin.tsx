@@ -1,64 +1,60 @@
-import { TextField} from "@mui/material";
+import { TextField } from "@mui/material";
 import { useLoginPageContext } from "../context";
-import { Controller, useFormContext} from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
-import ButtoAction from "../../../common/components/button/button";
+import ButtoAction from "@components/button/button";
 import { sizeInput } from "@utils/inputSize";
+import useLogin from "../hook/useLogin";
 
 const FormLogin = () => {
-  const {state } = useLoginPageContext();
-  const {isLoading} = state
-  const {control}  = useFormContext();
-  
-
+  const { state } = useLoginPageContext();
+  const { isLoading } = state;
+  const { control } = useFormContext();
+  const { handleLogin } = useLogin();
   return (
     <div>
       <form method="POST" className="flex flex-col gap-4">
-        
-            <Controller
-        control={control}
-        name="email"
-        render={({ field, fieldState}) => (
-          <TextField 
-          {...field}
-          error={fieldState.isValidating}
-          id="outlined-basic"
-           {...sizeInput}
-          label="email" 
-          type="email"
-          variant="outlined" 
-          helperText={fieldState.invalid}
-        />
-        )}
-        />
-        
-      
-         <Controller
-        control={control}
-        name="password"
-        render={({ field, fieldState}) => (
-          <TextField
-            {...field}
-            {...sizeInput}
-            error={fieldState.isValidating}
-            id="outlined-password-input"
-            label="Password"
-            type="password"
-           
-            autoComplete="current-password"
-            helperText={fieldState.invalid}
-        />
-        )}
+        <Controller
+          defaultValue={""}
+          control={control}
+          name="email"
+          render={({ field, fieldState }) => (
+            <TextField
+              {...field}
+              id="outlined-email"
+              label="Email"
+              type="email"
+              variant="outlined"
+              {...sizeInput}
+              error={fieldState.invalid}
+              helperText={fieldState.error?.message}
+            />
+          )}
         />
 
-       
-       
-        
-      <ButtoAction 
-        label="submit"
-        isLoading={isLoading}
-        onClick={() => {console.log("error")}}
-      />
+        <Controller
+          defaultValue={""}
+          control={control}
+          name="password"
+          render={({ field, fieldState }) => (
+            <TextField
+              {...field}
+              id="outlined-password"
+              label="Password"
+              type="password"
+              variant="outlined"
+              {...sizeInput}
+              error={fieldState.invalid}
+              helperText={fieldState.error?.message}
+            />
+          )}
+        />
+
+        <ButtoAction
+          label="submit"
+          isLoading={isLoading}
+          onClick={handleLogin}
+        />
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-import type { LoginRequestModel } from "../../../api/users/model";
+import type { LoginRequestModel } from "@api/users/model";
 import { useForm } from "react-hook-form";
 import type { Resolver, UseFormReturn } from "react-hook-form";
 import { useLoginPageContext } from "../context";

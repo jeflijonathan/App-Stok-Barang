@@ -8,7 +8,7 @@ export class UserService {
   async fetchUsers() {}
 
   async Login(
-    data: LoginRequestModel[],
+    data: LoginRequestModel,
     callback: Callback<LoginResponseModel[]>
   ) {
     const res: APIResponse<LoginResponseModel[]> = await this.api.POST(
